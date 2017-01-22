@@ -15,10 +15,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import net.mcfr.Launcher;
 import net.mcfr.mvc.Frame;
 
-public class NewsItem extends JPanel {
+public final class NewsItem extends JPanel {
   private static final long serialVersionUID = 4945960939928674419L;
 
   /**
@@ -31,14 +36,16 @@ public class NewsItem extends JPanel {
     new Thread() {
       @Override
       public void run() {
-
-        String s = Launcher.readJsonFromUrl("https://www.minecraft-fr.net/news/json/5");
-        System.out.println(s);
-
-        //          while (true) {
-        //            box.add(Box.createVerticalStrut(15));
-        //            box.add(new NewsItem("", ""));
-        //          }
+        try {
+          JSONArray array = (JSONArray) new JSONParser().parse(Launcher.readJsonFromUrl(Launcher.MCFR_URL + "news/json/5"));
+          array.forEach(o -> {
+            JSONObject news = (JSONObject) o;
+            box.add(Box.createVerticalStrut(15));
+            box.add(new NewsItem(news.get("titre").toString(), news.get("resume").toString(), Integer.parseInt(news.get("id").toString())));
+          });
+        } catch (ParseException e) {
+          e.printStackTrace();
+        }
         box.add(Box.createVerticalStrut(15));
         Frame.getFrame().revalidate();
         Frame.getFrame().repaint();

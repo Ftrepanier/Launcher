@@ -18,9 +18,7 @@ public class Server {
     initServersState();
 
     try {
-      JSONParser parser = new JSONParser();
-
-      JSONObject obj = (JSONObject) parser.parse(serversState);
+      JSONObject obj = (JSONObject) new JSONParser().parse(serversState);
       if (this.online = ((JSONObject) obj.get(label)).get("status").equals("online")) {
         this.playerCount = Integer.parseInt(((JSONObject) obj.get(label)).get("onlinePlayers").toString());
         this.capacity = Integer.parseInt(((JSONObject) obj.get(label)).get("maxPlayers").toString());

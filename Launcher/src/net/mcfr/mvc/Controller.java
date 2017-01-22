@@ -8,16 +8,17 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import fr.theshark34.openauth.AuthenticationException;
+import fr.theshark34.openlauncherlib.LaunchException;
 import fr.theshark34.openlauncherlib.util.Saver;
 import net.mcfr.Launcher;
 
-public class Controller extends MouseAdapter implements ActionListener, KeyListener {
-
+public final class Controller extends MouseAdapter implements ActionListener, KeyListener {
   private static Controller controller;
 
   private boolean patchInProgress;
@@ -71,26 +72,26 @@ public class Controller extends MouseAdapter implements ActionListener, KeyListe
             return;
           }
           Controller.this.saver.set("username", panel.getUsername());
-          //          try {
-          //              Launcher.update(panel);
-          //          } catch (Exception e) {
-          //            Launcher.interruptThread();
-          //            JOptionPane.showMessageDialog(null, "<html>Impossible de mettre le jeu à jour :<br />" + e + "</html>", "Erreur",
-          //                JOptionPane.ERROR_MESSAGE);
-          //            panel.setFieldsEnabled(true);
-          //            panel.setLabelProgression("En attente...");
-          //            return;
-          //          }
+          try {
+            Launcher.update(panel);
+          } catch (Exception e) {
+            Launcher.interruptThread();
+            JOptionPane.showMessageDialog(null, "<html>Impossible de mettre le jeu à jour :<br />" + e + "</html>", "Erreur",
+                JOptionPane.ERROR_MESSAGE);
+            panel.setFieldsEnabled(true);
+            panel.setLabelProgression("En attente...");
+            return;
+          }
 
-          //          try {
-          //              panel.setLabelProgression("Le jeu va être lancé...");
-          //              Launcher.launch();
-          //          } catch (IOException | LaunchException e) {
-          //            JOptionPane.showMessageDialog(null, "<html>Impossible de lancer le jeu :<br />" + e + "</html>", "Erreur", JOptionPane.ERROR_MESSAGE);
-          //            panel.setFieldsEnabled(true);
-          //            panel.setLabelProgression("En attente...");
-          //            return;
-          //          }
+          try {
+            panel.setLabelProgression("Le jeu va être lancé...");
+            Launcher.launch();
+          } catch (IOException | LaunchException e) {
+            JOptionPane.showMessageDialog(null, "<html>Impossible de lancer le jeu :<br />" + e + "</html>", "Erreur", JOptionPane.ERROR_MESSAGE);
+            panel.setFieldsEnabled(true);
+            panel.setLabelProgression("En attente...");
+            return;
+          }
         }
       }.start();
 
@@ -134,10 +135,8 @@ public class Controller extends MouseAdapter implements ActionListener, KeyListe
   }
 
   @Override
-  public void keyPressed(KeyEvent e) {
-  }
+  public void keyPressed(KeyEvent e) {}
 
   @Override
-  public void keyReleased(KeyEvent e) {
-  }
+  public void keyReleased(KeyEvent e) {}
 }
