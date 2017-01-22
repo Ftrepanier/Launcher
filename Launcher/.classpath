@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="libs/openauth-1.0.3-SNAPSHOT.jar" sourcepath="libs/Sources/OpenAuth-1.0.3-SNAPSHOT.zip"/>
+	<classpathentry kind="lib" path="libs/openlauncherlib-3.0.3-BETA.jar" sourcepath="libs/Sources/OpenLauncherLib-3.0.3-BETA.zip"/>
+	<classpathentry kind="lib" path="libs/s-update-3.1.0-BETA.jar"/>
+	<classpathentry kind="lib" path="libs/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
