@@ -95,7 +95,7 @@ public class Launcher {
     try {
       URLConnection conn = new URL(url).openConnection();
 
-      BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+      BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
       StringBuffer sb = new StringBuffer();
       String line;
       while ((line = rd.readLine()) != null) {
