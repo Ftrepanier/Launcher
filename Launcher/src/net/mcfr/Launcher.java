@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 
 import fr.theshark34.openauth.AuthPoints;
 import fr.theshark34.openauth.AuthenticationException;
@@ -13,8 +14,8 @@ import fr.theshark34.openauth.Authenticator;
 import fr.theshark34.openauth.model.AuthAgent;
 import fr.theshark34.openauth.model.response.AuthResponse;
 import fr.theshark34.openlauncherlib.LaunchException;
-import fr.theshark34.openlauncherlib.internal.InternalLaunchProfile;
-import fr.theshark34.openlauncherlib.internal.InternalLauncher;
+import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
+import fr.theshark34.openlauncherlib.external.ExternalLauncher;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
 import fr.theshark34.openlauncherlib.minecraft.GameFolder;
 import fr.theshark34.openlauncherlib.minecraft.GameInfos;
@@ -25,6 +26,7 @@ import fr.theshark34.openlauncherlib.minecraft.MinecraftLauncher;
 import fr.theshark34.supdate.BarAPI;
 import fr.theshark34.supdate.SUpdate;
 import fr.theshark34.supdate.application.integrated.FileDeleter;
+import net.mcfr.mvc.Frame;
 import net.mcfr.mvc.Panel;
 
 public class Launcher {
@@ -79,9 +81,9 @@ public class Launcher {
   }
 
   public static void launch() throws IOException, LaunchException {
-    InternalLaunchProfile profile = MinecraftLauncher.createInternalProfile(MCFR_INFOS, GameFolder.BASIC, authInfos);
-    InternalLauncher launcher = new InternalLauncher(profile);
-
+    ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(MCFR_INFOS, GameFolder.BASIC, authInfos);
+    profile.getVmArgs().addAll(Arrays.asList(Frame.getFrame().getRamSelector().getRamArguments()));
+    ExternalLauncher launcher = new ExternalLauncher(profile);
     try {
       launcher.launch();
     } catch (LaunchException e) {

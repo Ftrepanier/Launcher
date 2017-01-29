@@ -16,6 +16,7 @@ import javax.swing.UIManager;
 import net.mcfr.Launcher;
 import net.mcfr.graphics.CloseButton;
 import net.mcfr.graphics.GiwiIcon;
+import net.mcfr.graphics.HintPasswordField;
 import net.mcfr.graphics.HintTextField;
 import net.mcfr.graphics.LaunchButton;
 import net.mcfr.graphics.NewsItem;
@@ -95,7 +96,7 @@ public class Panel extends JPanel {
       this.usernameField.setText(username);
     }
 
-    this.passwordField = new HintTextField("Mot de passe");
+    this.passwordField = new HintPasswordField("Mot de passe");
     this.passwordField.setFont(new Font(Launcher.TYPEFACE, 0, 12));
     this.passwordField.setForeground(new Color(156, 153, 151));
     this.passwordField.setCaretColor(new Color(156, 153, 151));

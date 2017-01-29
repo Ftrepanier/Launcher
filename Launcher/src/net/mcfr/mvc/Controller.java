@@ -7,15 +7,20 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 
 import fr.theshark34.openauth.AuthenticationException;
 import fr.theshark34.openlauncherlib.LaunchException;
 import fr.theshark34.openlauncherlib.util.Saver;
+import fr.theshark34.openlauncherlib.util.ramselector.RamSelector;
 import net.mcfr.Launcher;
 
 public final class Controller extends MouseAdapter implements ActionListener, KeyListener {
@@ -23,6 +28,7 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
 
   private boolean patchInProgress;
   private Point initialClick;
+  private int lastMouseButtonPressed;
 
   private Saver saver;
 
@@ -110,21 +116,45 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
 
   @Override
   public void mousePressed(MouseEvent e) {
-    this.initialClick = e.getPoint();
+    if ((this.lastMouseButtonPressed = e.getButton()) == MouseEvent.BUTTON1) {
+      this.initialClick = e.getPoint();
+    }
   }
 
   @Override
   public void mouseDragged(MouseEvent e) {
-    Frame frame = Frame.getFrame();
-    int thisX = frame.getLocation().x;
-    int thisY = frame.getLocation().y;
+    if (this.lastMouseButtonPressed == MouseEvent.BUTTON1 && e.getButton() == MouseEvent.NOBUTTON) {
+      Frame frame = Frame.getFrame();
+      int thisX = frame.getLocation().x;
+      int thisY = frame.getLocation().y;
 
-    int xMoved = thisX + e.getX() - (thisX + this.initialClick.x);
-    int yMoved = thisY + e.getY() - (thisY + this.initialClick.y);
+      int xMoved = thisX + e.getX() - (thisX + this.initialClick.x);
+      int yMoved = thisY + e.getY() - (thisY + this.initialClick.y);
 
-    int X = thisX + xMoved;
-    int Y = thisY + yMoved;
-    frame.setLocation(X, Y);
+      int X = thisX + xMoved;
+      int Y = thisY + yMoved;
+      frame.setLocation(X, Y);
+    }
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+    if (e.getButton() == MouseEvent.BUTTON3) {
+      JPopupMenu popup = new JPopupMenu("yo !");
+      JMenuItem ramItem = new JMenuItem("RAM...");
+      ramItem.addActionListener(e1 -> {
+        RamSelector rs = Frame.getFrame().getRamSelector();
+        rs.display().addWindowListener(new WindowAdapter() {
+          @Override
+          public void windowClosing(WindowEvent e) {
+            rs.save();
+          }
+        });
+      });
+      popup.add(ramItem);
+      popup.show(Panel.getPanel(), e.getX(), e.getY());
+    }
+    super.mouseClicked(e);
   }
 
   @Override
