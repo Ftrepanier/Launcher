@@ -86,6 +86,7 @@ public class Launcher {
     ExternalLauncher launcher = new ExternalLauncher(profile);
     try {
       launcher.launch();
+      System.exit(0);
     } catch (LaunchException e) {
       e.printStackTrace();
     }
