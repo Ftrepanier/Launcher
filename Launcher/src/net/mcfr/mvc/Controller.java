@@ -29,10 +29,12 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
   private boolean patchInProgress;
   private Point initialClick;
   private int lastMouseButtonPressed;
+  private boolean gameLaunched;
 
   private Saver saver;
 
   private Controller() {
+    this.gameLaunched = false;
     this.saver = new Saver(new File(Launcher.MCFR_INFOS.getGameDir() + "profile.properties"));
   }
 
@@ -56,6 +58,12 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
     Panel panel = Panel.getPanel();
     switch (e.getActionCommand()) {
     case "patch":
+      if (this.gameLaunched) {
+        JOptionPane.showConfirmDialog(null, "Vous ne pouvez pas lancer deux fois le launcher.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        return;
+      }
+
+      this.gameLaunched = true;
       panel.setFieldsEnabled(false);
 
       if (panel.getUsername().trim().length() == 0 || panel.getPassword().length() == 0) {
@@ -73,6 +81,7 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
           } catch (AuthenticationException e) {
             JOptionPane.showMessageDialog(null, "<html>Impossible de se connecter :<br />" + e.getErrorModel().getErrorMessage() + "</html>",
                 "Erreur", JOptionPane.ERROR_MESSAGE);
+            Controller.this.gameLaunched = false;
             panel.setFieldsEnabled(true);
             panel.setLabelProgression("En attente...");
             return;
@@ -84,6 +93,7 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
             Launcher.interruptThread();
             JOptionPane.showMessageDialog(null, "<html>Impossible de mettre le jeu à jour :<br />" + e + "</html>", "Erreur",
                 JOptionPane.ERROR_MESSAGE);
+            Controller.this.gameLaunched = false;
             panel.setFieldsEnabled(true);
             panel.setLabelProgression("En attente...");
             return;
@@ -94,6 +104,7 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
             Launcher.launch();
           } catch (IOException | LaunchException e) {
             JOptionPane.showMessageDialog(null, "<html>Impossible de lancer le jeu :<br />" + e + "</html>", "Erreur", JOptionPane.ERROR_MESSAGE);
+            Controller.this.gameLaunched = false;
             panel.setFieldsEnabled(true);
             panel.setLabelProgression("En attente...");
             return;

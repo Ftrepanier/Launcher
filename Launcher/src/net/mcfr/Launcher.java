@@ -30,7 +30,7 @@ import net.mcfr.mvc.Frame;
 import net.mcfr.mvc.Panel;
 
 public class Launcher {
-  public static final String VERSION = "1.5";
+  public static final String VERSION = "1.5.1";
   public static final String MCFR_URL = "http://www.minecraft-fr.net/";
   public static final Dimension WINDOW_DIMENSION = new Dimension(850, 606);
   public static final String TYPEFACE = "Arial";
