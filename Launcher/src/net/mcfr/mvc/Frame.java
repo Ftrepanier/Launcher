@@ -16,7 +16,9 @@ public class Frame extends JFrame {
 
   private Frame() {
     super("Mc-Fr");
-    setUndecorated(true);
+    if (!isMac()) {
+      setUndecorated(true);
+    }
     setSize(Launcher.WINDOW_DIMENSION);
     setLocationRelativeTo(null);
     setIconImage(Frame.getImage("favicon.png"));
@@ -40,6 +42,10 @@ public class Frame extends JFrame {
   }
 
   public RamSelector getRamSelector() {
-    return rs;
+    return this.rs;
+  }
+
+  public static boolean isMac() {
+    return System.getProperty("os.name").toLowerCase().contains("mac");
   }
 }

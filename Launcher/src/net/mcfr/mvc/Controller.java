@@ -59,7 +59,7 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
     switch (e.getActionCommand()) {
     case "patch":
       if (this.gameLaunched) {
-        JOptionPane.showConfirmDialog(null, "Vous ne pouvez pas lancer deux fois le launcher.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Vous ne pouvez pas lancer deux fois le launcher.", "Erreur", JOptionPane.ERROR_MESSAGE);
         return;
       }
 
@@ -68,6 +68,7 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
 
       if (panel.getUsername().trim().length() == 0 || panel.getPassword().length() == 0) {
         JOptionPane.showMessageDialog(null, "Veuillez saisir un pseudonyme et un mot de passe valides.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        this.gameLaunched = false;
         panel.setFieldsEnabled(true);
         return;
       }
@@ -127,14 +128,14 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
 
   @Override
   public void mousePressed(MouseEvent e) {
-    if ((this.lastMouseButtonPressed = e.getButton()) == MouseEvent.BUTTON1) {
+    if (!Frame.isMac() && (this.lastMouseButtonPressed = e.getButton()) == MouseEvent.BUTTON1) {
       this.initialClick = e.getPoint();
     }
   }
 
   @Override
   public void mouseDragged(MouseEvent e) {
-    if (this.lastMouseButtonPressed == MouseEvent.BUTTON1 && e.getButton() == MouseEvent.NOBUTTON) {
+    if (!Frame.isMac() && this.lastMouseButtonPressed == MouseEvent.BUTTON1 && e.getButton() == MouseEvent.NOBUTTON) {
       Frame frame = Frame.getFrame();
       int thisX = frame.getLocation().x;
       int thisY = frame.getLocation().y;
@@ -151,7 +152,7 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
   @Override
   public void mouseReleased(MouseEvent e) {
     if (e.getButton() == MouseEvent.BUTTON3) {
-      JPopupMenu popup = new JPopupMenu("yo !");
+      JPopupMenu popup = new JPopupMenu("");
       JMenuItem ramItem = new JMenuItem("RAM...");
       ramItem.addActionListener(e1 -> {
         RamSelector rs = Frame.getFrame().getRamSelector();
