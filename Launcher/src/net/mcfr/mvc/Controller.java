@@ -58,10 +58,8 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
     Panel panel = Panel.getPanel();
     switch (e.getActionCommand()) {
     case "patch":
-      if (this.gameLaunched) {
-        JOptionPane.showMessageDialog(null, "Vous ne pouvez pas lancer deux fois le launcher.", "Erreur", JOptionPane.ERROR_MESSAGE);
+      if (this.gameLaunched)
         return;
-      }
 
       this.gameLaunched = true;
       panel.setFieldsEnabled(false);

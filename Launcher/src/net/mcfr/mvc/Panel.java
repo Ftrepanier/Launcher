@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import net.mcfr.Launcher;
@@ -29,8 +28,8 @@ public class Panel extends JPanel {
   private static Panel panel;
 
   private JLabel progression;
-  private JTextField usernameField;
-  private JTextField passwordField;
+  private HintTextField usernameField;
+  private HintPasswordField passwordField;
 
   private Panel() {
     super(null);
@@ -82,7 +81,7 @@ public class Panel extends JPanel {
    * Initialise les champs de connexion.
    */
   private void initConnectionFields() {
-    this.usernameField = new HintTextField("Pseudo");
+    this.usernameField = new HintTextField("Adresse mail/Pseudonyme");
     this.usernameField.setFont(new Font(Launcher.TYPEFACE, 0, 12));
     this.usernameField.setForeground(new Color(156, 153, 151));
     this.usernameField.setCaretColor(new Color(156, 153, 151));
