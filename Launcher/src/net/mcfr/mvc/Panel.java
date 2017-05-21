@@ -19,6 +19,7 @@ import net.mcfr.graphics.HintPasswordField;
 import net.mcfr.graphics.HintTextField;
 import net.mcfr.graphics.LaunchButton;
 import net.mcfr.graphics.NewsItem;
+import net.mcfr.graphics.OptionButton;
 import net.mcfr.graphics.ReduceButton;
 import net.mcfr.graphics.ScrollBarDesgin;
 import net.mcfr.threads.IndicatorsThread;
@@ -51,9 +52,8 @@ public class Panel extends JPanel {
   }
 
   public static Panel getPanel() {
-    if (panel == null) {
+    if (panel == null)
       panel = new Panel();
-    }
     return panel;
   }
 
@@ -64,6 +64,7 @@ public class Panel extends JPanel {
     LaunchButton patchButton = new LaunchButton();
     CloseButton closeButton = new CloseButton();
     ReduceButton reduceButton = new ReduceButton();
+    OptionButton optionButton = new OptionButton();
 
     patchButton.addActionListener(Controller.getController());
     patchButton.setActionCommand("patch");
@@ -71,10 +72,13 @@ public class Panel extends JPanel {
     closeButton.setActionCommand("close");
     reduceButton.addActionListener(Controller.getController());
     reduceButton.setActionCommand("reduce");
+    optionButton.addActionListener(Controller.getController());
+    optionButton.setActionCommand("options");
 
     add(patchButton);
     add(closeButton);
     add(reduceButton);
+    add(optionButton);
   }
 
   /**
@@ -91,9 +95,8 @@ public class Panel extends JPanel {
     this.usernameField.addKeyListener(Controller.getController());
 
     String username = Controller.getController().getSavedUsername();
-    if (username != null) {
+    if (username != null)
       this.usernameField.setText(username);
-    }
 
     this.passwordField = new HintPasswordField("Mot de passe");
     this.passwordField.setFont(new Font(Launcher.TYPEFACE, 0, 12));

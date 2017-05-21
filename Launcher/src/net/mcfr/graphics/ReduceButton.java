@@ -7,7 +7,7 @@ public class ReduceButton extends McFrButton {
   private static final long serialVersionUID = -8247752497928496181L;
 
   public ReduceButton() {
-    super("reduire.png", 778, 14, 26, 26);
+    super("reduire.png", 750, 14, 26, 26);
   }
 
   @Override

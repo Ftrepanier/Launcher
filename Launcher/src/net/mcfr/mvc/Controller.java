@@ -13,9 +13,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 
 import fr.theshark34.openauth.AuthenticationException;
 import fr.theshark34.openlauncherlib.LaunchException;
@@ -47,9 +45,8 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
   }
 
   public static Controller getController() {
-    if (controller == null) {
+    if (controller == null)
       controller = new Controller();
-    }
     return controller;
   }
 
@@ -114,9 +111,17 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
       break;
     case "close":
       if (!getState() || getState() && JOptionPane.showConfirmDialog(Frame.getFrame(), "Le patch est en cours. Êtes vous sûr(e) de vouloir quitter ?",
-          "", JOptionPane.YES_NO_OPTION) == 0) {
+          "", JOptionPane.YES_NO_OPTION) == 0)
         System.exit(0);
-      }
+      break;
+    case "options":
+      RamSelector rs = Frame.getFrame().getRamSelector();
+      rs.display().addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+          rs.save();
+        }
+      });
       break;
     case "reduce":
       Frame.getFrame().setExtendedState(JFrame.ICONIFIED);
@@ -126,9 +131,8 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
 
   @Override
   public void mousePressed(MouseEvent e) {
-    if (!Frame.isMac() && (this.lastMouseButtonPressed = e.getButton()) == MouseEvent.BUTTON1) {
+    if (!Frame.isMac() && (this.lastMouseButtonPressed = e.getButton()) == MouseEvent.BUTTON1)
       this.initialClick = e.getPoint();
-    }
   }
 
   @Override
@@ -148,30 +152,9 @@ public final class Controller extends MouseAdapter implements ActionListener, Ke
   }
 
   @Override
-  public void mouseReleased(MouseEvent e) {
-    if (e.getButton() == MouseEvent.BUTTON3) {
-      JPopupMenu popup = new JPopupMenu("");
-      JMenuItem ramItem = new JMenuItem("RAM...");
-      ramItem.addActionListener(e1 -> {
-        RamSelector rs = Frame.getFrame().getRamSelector();
-        rs.display().addWindowListener(new WindowAdapter() {
-          @Override
-          public void windowClosing(WindowEvent e) {
-            rs.save();
-          }
-        });
-      });
-      popup.add(ramItem);
-      popup.show(Panel.getPanel(), e.getX(), e.getY());
-    }
-    super.mouseClicked(e);
-  }
-
-  @Override
   public void keyTyped(KeyEvent e) {
-    if (e.getKeyChar() == '\n') {
+    if (e.getKeyChar() == '\n')
       actionPerformed(new ActionEvent(e.getSource(), e.getID(), "patch"));
-    }
   }
 
   @Override
