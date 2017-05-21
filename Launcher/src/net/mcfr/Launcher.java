@@ -30,7 +30,7 @@ import net.mcfr.mvc.Frame;
 import net.mcfr.mvc.Panel;
 
 public class Launcher {
-  public static final String VERSION = "1.5.4";
+  public static final String VERSION = "1.5.5";
   public static final String MCFR_URL = "http://www.minecraft-fr.net/";
   public static final Dimension WINDOW_DIMENSION = new Dimension(850, 606);
   public static final String TYPEFACE = "Arial";
@@ -63,10 +63,9 @@ public class Launcher {
           this.val = (int) (BarAPI.getNumberOfTotalDownloadedBytes() / 1000);
           this.max = (int) (BarAPI.getNumberOfTotalBytesToDownload() / 1000);
 
-          if (this.max != 0) {
+          if (this.max != 0)
             panel.setLabelProgression("Téléchargement en cours : " + BarAPI.getNumberOfDownloadedFiles() + "/" + BarAPI.getNumberOfFileToDownload()
                 + " (" + this.val * 100 / this.max + " %).");
-          }
         }
       }
     };
@@ -99,9 +98,8 @@ public class Launcher {
       BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
       StringBuffer sb = new StringBuffer();
       String line;
-      while ((line = rd.readLine()) != null) {
+      while ((line = rd.readLine()) != null)
         sb.append(line);
-      }
       rd.close();
 
       return sb.toString();
